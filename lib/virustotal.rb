@@ -1,5 +1,6 @@
 require "virustotal/version"
+require "virustotal/api"
 
-module Virustotal
+module VirusTotal
   # Your code goes here...
 end
