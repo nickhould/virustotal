@@ -5,5 +5,9 @@ module Virustotal
       "https://www.virustotal.com/vtapi/v2"
     end
 
+    def self.api_key
+      # Set your API key here
+    end
+
   end
 end
