@@ -16,7 +16,7 @@ module Virustotal
 
     # Configuration
     def self.api_key
-      instance_variable_defined?(:@api_key) ? @api_key : ENV["api_key"]
+      instance_variable_defined?(:@api_key) ? @api_key : ENV["virustotal_api_key"]
     end
 
     def self.user_agent
