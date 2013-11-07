@@ -23,12 +23,18 @@ module Virustotal
       @user_agent ||= "VirusTotal Ruby Gem #{Virustotal::VERSION}"
     end
 
+
     # Requests
     # Sending and scanning files
+
+    def parse_response(response)
+      JSON.parse response if response && !response.blank
+    end
+
     def file_scan(file_path_or_uri)
       merged_options = options.merge({ file: open( file_path_or_uri ) })
       response = RestClient.post endpoint("/file/scan"), merged_options
-      JSON.parse response
+      parse_response(response)
     end
 
     # Rescanning already submitted files
@@ -36,7 +42,7 @@ module Virustotal
       resources = format(resources)
       merged_options = options.merge({ resource: resources})
       response = RestClient.post endpoint("/file/rescan"), merged_options
-      JSON.parse response
+      parse_response(response)
     end
 
     # Retrieving file scan reports
@@ -44,42 +50,42 @@ module Virustotal
       resources = format(resources)
       merged_options = options.merge({ resource: resources })
       response = RestClient.post endpoint("/file/report"), merged_options
-      JSON.parse response
+      parse_response(response)
     end
 
     # Sending and scanning URLs
     def url_scan(url)
       merged_options = options.merge({ url: url })
       response = RestClient.post endpoint("/url/scan"), merged_options
-      JSON.parse response
+      parse_response(response)
     end
 
     # Retrieving URL scan reports
     def url_report(resource) # resource: scan_id or url
       merged_options = options.merge!({ resource: resource })
       response = RestClient.post endpoint("/url/report"), merged_options
-      JSON.parse response
+      parse_response(response)
     end
 
     # Retrieving IP address reports
     def ip_adress_report(ip_adress)
       merged_options = options.merge({ ip: ip_adress })
       response = RestClient.get endpoint("/ip-address/report"), params: merged_options
-      JSON.parse response
+      parse_response(response)
     end
 
     # Retrieving domain reports
     def domain_report(domain)
       merged_options = options.merge({ domain: domain})
       response = RestClient.get endpoint("/domain/report"), params: merged_options
-      JSON.parse response
+      parse_response(response)
     end
 
     # Make comments on files and URLs
     def comments_put(resource, comment)
       merged_options = options.merge({ resource: resource, comment: comment })
       response = RestClient.post endpoint("/comments/put"), merged_options
-      JSON.parse response
+      parse_response(response)
     end
 
     private
